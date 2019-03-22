@@ -5,19 +5,13 @@
         <title>极乐净土</title>
         <style>
             P{margin: 0;text-align: center;}
-         #pre{
-            margin: 0 auto;
-            display: block;
-            font-family: Courier New;
-            font-size: 12px;
-            line-height: 10px;
-        }
-        #video{display: none;}
+            #pre{margin: 0 auto;display: block;font-family: Courier New;font-size: 12px;line-height: 10px;}
+            #video{display: none;}
         </style>
     </head>
     <html>
         <video autoplay="autoplay" id="video" controls="controls" loop="loop"></video>
-        <div style="margin:0 auto;">
+        <div style="margin:20px auto;">
             <pre id="pre"></pre>
         </div>
         <script>
@@ -46,15 +40,15 @@
     function init(canvas,show,ctx,vid) {
         canvas.width = 600;
         canvas.height = 300;
-        ctx.drawImage(vid, 0, 0,600,300);
-        var imgData = ctx.getImageData(0, 0, 600, 300);
+        ctx.drawImage(vid, 100, 0,400,300);
+        var imgData = ctx.getImageData(100, 0, 400, 300);
         var imgDataArr = imgData.data;
         var imgDataWidth = imgData.width;
         var imgDataHeight = imgData.height;
         var html = '';
-        for (h = 0; h < imgDataHeight; h +=6) {
+        for (h = 0; h < imgDataHeight; h +=4) {
             var p = '<p>';
-            for (w = 0; w < imgDataWidth; w +=3) {
+            for (w = 0; w < imgDataWidth; w +=2) {
                 var index = (w + imgDataWidth * h) * 4;
                 var r = imgDataArr[index + 0];
                 var g = imgDataArr[index + 1];
