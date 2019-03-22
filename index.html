@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+    <head>
+        <meta name=viewport content="width=device-width,initial-scale=1">
+        <title>极乐净土</title>
+        <style>
+            P{margin: 0;text-align: center;}
+         #pre{
+            margin: 0 auto;
+            display: block;
+            font-family: Courier New;
+            font-size: 12px;
+            line-height: 10px;
+        }
+        #video{display: none;}
+        </style>
+    </head>
+    <html>
+        <video autoplay="autoplay" id="video" controls="controls" loop="loop"></video>
+        <div style="margin:0 auto;">
+            <pre id="pre"></pre>
+        </div>
+        <script>
+        // 根据rgb值计算灰度
+    function getGray(r, g, b) {return 0.299 * r + 0.578 * g + 0.114 * b;}
+    function toText(g) {
+        if (g <= 30) {
+            return '@';
+        } else if (g > 30 && g <= 60) {
+            return 'w';
+        } else if (g > 60 && g <= 120) {
+            return '#';
+        }  else if (g > 120 && g <= 150) {
+            return '$';
+        } else if (g > 150 && g <= 180) {
+            return 'k';
+        } else if (g > 180 && g <= 210) {
+            return ';';
+        } else if (g > 210 && g <= 240) {
+            return '.';
+        }  else {
+            return ' ';
+        }
+    }
+    //将画布图像转化为字符串的函数
+    function init(canvas,show,ctx,vid) {
+        canvas.width = 600;
+        canvas.height = 300;
+        ctx.drawImage(vid, 0, 0,600,300);
+        var imgData = ctx.getImageData(0, 0, 600, 300);
+        var imgDataArr = imgData.data;
+        var imgDataWidth = imgData.width;
+        var imgDataHeight = imgData.height;
+        var html = '';
+        for (h = 0; h < imgDataHeight; h +=6) {
+            var p = '<p>';
+            for (w = 0; w < imgDataWidth; w +=3) {
+                var index = (w + imgDataWidth * h) * 4;
+                var r = imgDataArr[index + 0];
+                var g = imgDataArr[index + 1];
+                var b = imgDataArr[index + 2];
+                var gray = getGray(r, g, b);
+                p += toText(gray);
+            }
+            p += '</p>';
+            html += p;
+        }
+        show.innerHTML = html;
+    }
+
+            (function(){
+                var canvas = document.createElement("canvas");//创建一个canvas节点
+                if(!canvas.getContext) return;
+                var source = document.createElement("source");//
+                var video = document.getElementById("video");
+                video.crossOrigin = "anonymous";
+                source.src = "https://vd.yinyuetai.com/sh.yinyuetai.com/uploads/videos/common/713A015800B46D5DB3D7BE435781F7D3.mp4";
+                video.appendChild(source);
+                var ctx = canvas.getContext("2d");
+                var pre = document.getElementById("pre");
+                init(canvas,pre,ctx,video);
+                setInterval(function(){
+                    if(!video.paused){
+                        init(canvas,pre,ctx,video);
+                    }
+                },100);
+            }())
+        </script>
+    </html>
+</head>
